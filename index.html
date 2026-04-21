@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mathew Agustin | Backend Developer</title>
+    <title>Mathew Agustin | Backend Web Developer</title>
+    <meta name="description" content="Backend web developer specializing in Laravel and WordPress. Portfolio of projects, skills, and contact details.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
@@ -26,41 +27,43 @@
             background: var(--bg);
             color: var(--text);
             font-family: 'Segoe UI', sans-serif;
-            transition: 0.3s;
+            transition: .3s;
         }
 
         section {
-            padding: 90px 0;
+            padding: 80px 0;
         }
 
         .hero {
             min-height: 100vh;
             background: linear-gradient(120deg, #0d6efd, #6610f2);
-            color: white;
+            color: #fff;
             display: flex;
             align-items: center;
-            text-align: center;
         }
 
         .card {
             background: var(--card);
             border: none;
-            border-radius: 15px;
+            border-radius: 14px;
             box-shadow: 0 10px 25px rgba(0,0,0,.08);
-            transition: 0.3s;
+            transition: .3s;
+            height: 100%;
         }
 
         .card:hover {
             transform: translateY(-6px);
         }
 
-        .section-title {
-            font-weight: 700;
-        }
-
         footer {
             background: #111;
             color: #aaa;
+        }
+
+        /* SAME BUTTON SIZE */
+        .btn-fixed {
+            min-width: 190px;
+            height: 50px;
         }
     </style>
 </head>
@@ -74,12 +77,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="nav">
-            <ul class="navbar-nav ms-auto align-items-center">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
                 <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                <li class="nav-item ms-2">
+                <li class="nav-item">
                     <button class="btn btn-outline-light btn-sm" onclick="toggleDark()">
                         <i class="bi bi-moon-stars"></i>
                     </button>
@@ -89,61 +92,82 @@
     </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO (ONLY H1 FOR SEO) -->
 <section class="hero">
     <div class="container">
-        <h1 class="display-4 fw-bold">Hi, I'm Mathew Agustin 👋</h1>
-        <p class="lead mt-3">Backend Developer | Laravel & WordPress</p>
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-start">
+                <h1 class="display-4 fw-bold">
+                    Hi, I'm Mathew Agustin
+                </h1>
+                <p class="lead mt-3">
+                    Backend Web Developer specializing in Laravel & WordPress
+                </p>
 
-        <div class="mt-4">
-            <a href="#projects" class="btn btn-warning btn-lg me-2">View Projects</a>
-            <a href="resume.pdf" class="btn btn-outline-light btn-lg" download>
-                <i class="bi bi-download"></i> Download Resume
-            </a>
+                <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
+                    <a href="#projects" class="btn btn-warning btn-fixed">
+                        View Projects
+                    </a>
+                    <a href="resume.pdf" class="btn btn-outline-light btn-fixed" download>
+                        <i class="bi bi-download"></i> Resume
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-    <div class="container text-center">
-        <h2 class="section-title">About Me</h2>
-        <p class="text-muted col-md-8 mx-auto mt-3">
-            I am a junior backend developer focused on Laravel and WordPress.
-            I build secure CRUD systems, authentication, and scalable backend logic.
-            My goal is to grow into a professional full-stack developer.
-        </p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-start">
+                <h2 class="fw-bold">About Me</h2>
+                <p class="mt-3">
+                    I am a junior backend developer focused on Laravel and WordPress.
+                    I build secure CRUD systems, authentication flows, and scalable
+                    backend logic for real-world applications.
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills" class="bg-light">
-    <div class="container text-center">
-        <h2 class="section-title">Skills</h2>
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8 text-start">
+                <h2 class="fw-bold">Skills</h2>
+                <p class="mt-2">
+                    Technologies I use for backend and web development.
+                </p>
+            </div>
+        </div>
 
-        <div class="row g-4 mt-4">
-            <div class="col-md-3">
+        <div class="row g-4 justify-content-center">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card p-4">
-                    <i class="bi bi-code-slash fs-1 text-primary"></i>
-                    <h5 class="mt-2">PHP</h5>
+                    <h3 class="h5">PHP</h3>
+                    <p class="mb-0">Server-side scripting</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card p-4">
-                    <i class="bi bi-layers fs-1 text-primary"></i>
-                    <h5 class="mt-2">Laravel</h5>
+                    <h3 class="h5">Laravel</h3>
+                    <p class="mb-0">MVC framework</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card p-4">
-                    <i class="bi bi-wordpress fs-1 text-primary"></i>
-                    <h5 class="mt-2">WordPress</h5>
+                    <h3 class="h5">WordPress</h3>
+                    <p class="mb-0">CMS & custom themes</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card p-4">
-                    <i class="bi bi-database fs-1 text-primary"></i>
-                    <h5 class="mt-2">MySQL</h5>
+                    <h3 class="h5">MySQL</h3>
+                    <p class="mb-0">Relational database</p>
                 </div>
             </div>
         </div>
@@ -152,26 +176,40 @@
 
 <!-- PROJECTS -->
 <section id="projects">
-    <div class="container text-center">
-        <h2 class="section-title">Projects</h2>
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8 text-start">
+                <h2 class="fw-bold">Projects</h2>
+                <p class="mt-2">
+                    Sample projects showcasing backend functionality.
+                </p>
+            </div>
+        </div>
 
-        <div class="row g-4 mt-4">
+        <div class="row g-4 justify-content-center">
             <div class="col-md-4">
-                <div class="card p-4 h-100">
-                    <h5>Laravel CRUD System</h5>
-                    <p class="text-muted">Authentication, validation, roles, database relations</p>
+                <div class="card p-4">
+                    <h3 class="h5">Laravel CRUD System</h3>
+                    <p>
+                        Authentication, role-based access, validation, and
+                        database relationships.
+                    </p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card p-4 h-100">
-                    <h5>WordPress Business Website</h5>
-                    <p class="text-muted">Custom theme, responsive layout, plugins</p>
+                <div class="card p-4">
+                    <h3 class="h5">WordPress Business Site</h3>
+                    <p>
+                        Responsive design, custom theme, and plugin setup.
+                    </p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card p-4 h-100">
-                    <h5>Password & Email System</h5>
-                    <p class="text-muted">Password rules, expiry notifications, email</p>
+                <div class="card p-4">
+                    <h3 class="h5">Password & Email System</h3>
+                    <p>
+                        Secure password rules and email notifications.
+                    </p>
                 </div>
             </div>
         </div>
@@ -180,23 +218,30 @@
 
 <!-- CONTACT -->
 <section id="contact" class="bg-light">
-    <div class="container text-center">
-        <h2 class="section-title">Contact Me</h2>
+    <div class="container">
+        <div class="row justify-content-center text-start">
+            <div class="col-md-8">
+                <h2 class="fw-bold">Contact</h2>
+                <p class="mt-2">
+                    You can reach me through the platforms below.
+                </p>
 
-        <div class="mt-4">
-            <a href="https://github.com/yourusername" class="btn btn-dark me-2">
-                <i class="bi bi-github"></i> GitHub
-            </a>
-            <a href="https://linkedin.com/in/yourusername" class="btn btn-primary">
-                <i class="bi bi-linkedin"></i> LinkedIn
-            </a>
+                <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
+                    <a href="https://github.com/yourusername" class="btn btn-dark btn-fixed">
+                        <i class="bi bi-github"></i> GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" class="btn btn-primary btn-fixed">
+                        <i class="bi bi-linkedin"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="text-center py-4">
-    <p class="mb-0">© 2026 Mathew Agustin • Backend Developer</p>
+    <p class="mb-0">© 2026 Mathew Agustin • Backend Web Developer</p>
 </footer>
 
 <script>
