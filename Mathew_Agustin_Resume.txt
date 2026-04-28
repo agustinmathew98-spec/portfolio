@@ -1,0 +1,37 @@
+MATHEW AGUSTIN
+Backend Web Developer
+
+Email: your-email@example.com
+Phone: +63-000-000-0000
+Location: Philippines
+LinkedIn: https://linkedin.com/in/mathew-agustin-207349319/
+GitHub: https://github.com/agustinmathew98-spec
+
+SUMMARY
+Junior backend developer focused on Laravel and WordPress.
+Builds secure CRUD systems, authentication flows, and scalable backend logic.
+
+SKILLS
+- PHP
+- Laravel
+- WordPress
+- MySQL
+- REST API Development
+- Authentication and Validation
+
+PROJECTS
+1. Laravel CRUD System
+- Implemented authentication, role-based access, and relational data handling.
+
+2. WordPress Business Site
+- Built responsive layout with custom theme and plugin setup.
+
+3. Password and Email System
+- Enforced password rules and implemented email notifications.
+
+EXPERIENCE
+- Add your work experience here.
+
+EDUCATION
+- Add your education details here.
+
