@@ -116,7 +116,7 @@
                     <a href="#projects" class="btn btn-warning btn-fixed">
                         View Projects
                     </a>
-                    <a href="resume.pdf" class="btn btn-outline-light btn-fixed" download>
+                    <a href="/Mathew_Agustin_Resume.pdf" class="btn btn-outline-light btn-fixed" download>
                         <i class="bi bi-download"></i> Resume
                     </a>
                 </div>
@@ -254,7 +254,7 @@
                             <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-fixed">
+                            <button id="sendBtn" type="submit" class="btn btn-primary btn-fixed">
                                 <i class="bi bi-send"></i> Send Message
                             </button>
                         </div>
@@ -268,7 +268,7 @@
                     <a href="https://github.com/agustinmathew98-spec" class="btn btn-dark btn-fixed" target="_blank">
                         <i class="bi bi-github"></i> GitHub
                     </a>
-                    <a href="https://linkedin.com/in/mathew-agustin-207349319/ " class="btn btn-primary btn-fixed" target="_blank">
+                    <a href="https://linkedin.com/in/mathew-agustin-207349319/" class="btn btn-primary btn-fixed" target="_blank">
                         <i class="bi bi-linkedin"></i> LinkedIn
                     </a>
                 </div>
@@ -279,7 +279,7 @@
 
 <!-- FOOTER -->
 <footer class="text-center py-4">
-    <p class="mb-0">© 2026 Mathew Agustin • Backend Web Developer</p>
+    <p class="mb-0">&copy; 2026 Mathew Agustin | Backend Web Developer</p>
 </footer>
 
 <script>
@@ -287,39 +287,47 @@
         document.body.classList.toggle('dark');
     }
 
-    // Contact Form Handling
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
+    window.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contactForm');
+        const sendBtn = document.getElementById('sendBtn');
         const messageDiv = document.getElementById('formMessage');
-        const submitBtn = this.querySelector('button[type="submit"]');
-        
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
-        
-        fetch('submit_message.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            messageDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
-            messageDiv.classList.add(data.success ? 'alert-success' : 'alert-danger');
-            messageDiv.textContent = data.message;
-            
-            if (data.success) {
-                this.reset();
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            messageDiv.className = 'alert mt-3 d-none';
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Sending...';
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                messageDiv.classList.remove('d-none');
+
+                if (response.ok && result.success) {
+                    messageDiv.classList.add('alert-success');
+                    messageDiv.textContent = result.message || 'Thank you! Your message has been sent successfully.';
+                    form.reset();
+                } else {
+                    messageDiv.classList.add('alert-danger');
+                    messageDiv.textContent = result.message || 'Failed to send your message. Please try again.';
+                }
+            } catch (error) {
+                messageDiv.classList.remove('d-none');
+                messageDiv.classList.add('alert-danger');
+                messageDiv.textContent = 'Network error. Please try again in a moment.';
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="bi bi-send"></i> Send Message';
             }
-        })
-        .catch(error => {
-            messageDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
-            messageDiv.classList.add('alert-danger');
-            messageDiv.textContent = 'An error occurred. Please try again.';
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="bi bi-send"></i> Send Message';
         });
     });
 </script>
@@ -327,3 +335,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

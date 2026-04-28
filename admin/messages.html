@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages | Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+        .message-card { transition: .3s; }
+        .message-card:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/index.html">
+                <i class="bi bi-arrow-left"></i> Back to Portfolio
+            </a>
+            <span class="navbar-text">Admin Panel</span>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <h1 class="mb-0">Contact Messages</h1>
+            <button id="reloadBtn" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-clockwise"></i> Reload
+            </button>
+        </div>
+
+        <div id="statusAlert" class="alert d-none"></div>
+        <div id="messagesRow" class="row g-4"></div>
+    </div>
+
+    <script>
+        const statusAlert = document.getElementById('statusAlert');
+        const messagesRow = document.getElementById('messagesRow');
+        const reloadBtn = document.getElementById('reloadBtn');
+
+        function showStatus(type, text) {
+            statusAlert.className = `alert alert-${type}`;
+            statusAlert.textContent = text;
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function renderMessages(messages) {
+            if (!messages.length) {
+                messagesRow.innerHTML = '<div class="col-12"><div class="alert alert-info mb-0">No messages yet.</div></div>';
+                return;
+            }
+
+            messagesRow.innerHTML = messages.map((msg) => {
+                const createdAt = msg.created_at ? new Date(msg.created_at).toLocaleString() : 'Unknown date';
+                return `
+                    <div class="col-md-6">
+                        <div class="card message-card p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2 gap-3">
+                                <div>
+                                    <h5 class="mb-0">${escapeHtml(msg.name)}</h5>
+                                    <a href="mailto:${escapeHtml(msg.email)}" class="text-muted small">${escapeHtml(msg.email)}</a>
+                                </div>
+                                <small class="text-muted text-end">${escapeHtml(createdAt)}</small>
+                            </div>
+                            <h6 class="text-primary">${escapeHtml(msg.subject)}</h6>
+                            <p class="mb-0">${escapeHtml(msg.message).replace(/\n/g, '<br>')}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadMessages() {
+            const token = window.localStorage.getItem('adminToken') || prompt('Enter admin token:');
+
+            if (!token) {
+                showStatus('warning', 'Admin token is required to view messages.');
+                return;
+            }
+
+            window.localStorage.setItem('adminToken', token);
+            showStatus('secondary', 'Loading messages...');
+
+            try {
+                const response = await fetch('/api/messages', {
+                    headers: { 'x-admin-token': token }
+                });
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    if (response.status === 401) {
+                        window.localStorage.removeItem('adminToken');
+                        showStatus('danger', 'Invalid admin token. Reload and try again.');
+                        messagesRow.innerHTML = '';
+                        return;
+                    }
+
+                    showStatus('danger', result.message || 'Failed to load messages.');
+                    messagesRow.innerHTML = '';
+                    return;
+                }
+
+                showStatus('success', `Loaded ${result.messages.length} message(s).`);
+                renderMessages(result.messages);
+            } catch (error) {
+                showStatus('danger', 'Network error while loading messages.');
+                messagesRow.innerHTML = '';
+            }
+        }
+
+        reloadBtn.addEventListener('click', loadMessages);
+        loadMessages();
+    </script>
+</body>
+</html>
