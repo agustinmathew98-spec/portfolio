@@ -65,6 +65,14 @@
             min-width: 190px;
             height: 50px;
         }
+
+        /* Mobile & Tablet view margin */
+        @media (max-width: 991px) {
+            .container {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -223,14 +231,44 @@
             <div class="col-md-8">
                 <h2 class="fw-bold">Contact</h2>
                 <p class="mt-2">
-                    You can reach me through the platforms below.
+                    Send me a message and I'll get back to you.
                 </p>
 
+                <!-- Contact Form -->
+                <form id="contactForm" class="mt-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-fixed">
+                                <i class="bi bi-send"></i> Send Message
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Success/Error Message -->
+                <div id="formMessage" class="alert mt-3 d-none"></div>
+
                 <div class="d-flex flex-column flex-sm-row gap-3 mt-4 justify-content-start justify-content-md-center">
-                    <a href="https://github.com/yourusername" class="btn btn-dark btn-fixed">
+                    <a href="https://github.com/agustinmathew98-spec" class="btn btn-dark btn-fixed" target="_blank">
                         <i class="bi bi-github"></i> GitHub
                     </a>
-                    <a href="https://linkedin.com/in/yourusername" class="btn btn-primary btn-fixed">
+                    <a href="https://linkedin.com/in/mathew-agustin-207349319/ " class="btn btn-primary btn-fixed" target="_blank">
                         <i class="bi bi-linkedin"></i> LinkedIn
                     </a>
                 </div>
@@ -248,6 +286,42 @@
     function toggleDark() {
         document.body.classList.toggle('dark');
     }
+
+    // Contact Form Handling
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const messageDiv = document.getElementById('formMessage');
+        const submitBtn = this.querySelector('button[type="submit"]');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+        
+        fetch('submit_message.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            messageDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
+            messageDiv.classList.add(data.success ? 'alert-success' : 'alert-danger');
+            messageDiv.textContent = data.message;
+            
+            if (data.success) {
+                this.reset();
+            }
+        })
+        .catch(error => {
+            messageDiv.classList.remove('d-none', 'alert-success', 'alert-danger');
+            messageDiv.classList.add('alert-danger');
+            messageDiv.textContent = 'An error occurred. Please try again.';
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="bi bi-send"></i> Send Message';
+        });
+    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
